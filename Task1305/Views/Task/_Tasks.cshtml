@@ -1,0 +1,9 @@
+﻿
+@model TasksViewModel;
+@{
+}
+
+@foreach (var task in Model.Tasks)
+{
+    <partial name="_TaskItem" model="@task" />
+}
