@@ -1,0 +1,17 @@
+﻿@model TaskManager.Models.User.UserRegisterViewModel;
+
+@{
+}
+
+<form class="form-inline row g-3" asp-controller="User" asp-action="Register" method="POST">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="form-control" asp-for="Email" placeholder="Enter email">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="form-control" asp-for="Password" placeholder="Password">
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+    <small class="form-text text-muted">Have an account? <a asp-action="Login">Login</a></small>
+</form>

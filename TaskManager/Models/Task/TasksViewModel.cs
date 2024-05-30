@@ -1,4 +1,4 @@
-﻿namespace Task1305.Models.Task
+﻿namespace TaskManager.Models.Task
 {
     public class TasksViewModel
     {
