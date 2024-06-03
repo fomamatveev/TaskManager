@@ -29,7 +29,7 @@ namespace TaskManager.Controllers
 		public IActionResult Index()
 		{
 			var tasks = _dbContext.Tasks;
-			return View(new TasksViewModel(tasks.Where(t => t.UserID == _authenticationService.User.Id).ToList()));
+			return View(new TasksViewModel(tasks.Where(t => t.UserId == _authenticationService.User().Id).ToList()));
 		}
 
 		[HttpPost]
@@ -39,13 +39,13 @@ namespace TaskManager.Controllers
 			{
 				Id = Guid.NewGuid(),
 				Description = description,
-				UserID = _authenticationService.User.Id
+				UserId = _authenticationService.User().Id
 			};
 
 			_dbContext.Tasks.Add(task);
 			_dbContext.SaveChanges();
 
-			_logger.LogInformation("{user} created task {id}", _authenticationService.User.Id, task.Id);
+			_logger.LogInformation("{user} created task {id}", _authenticationService.User().Id, task.Id);
 
 			return RedirectToAction(nameof(Index));
 		}
@@ -55,13 +55,13 @@ namespace TaskManager.Controllers
 		{
 			var task = _dbContext.Tasks.Find(id);
 
-			if (task.UserID != _authenticationService.User.Id)
+			if (task.UserId != _authenticationService.User().Id)
 				return Forbid();
 
 			_dbContext.Tasks.Remove(task!);
 			_dbContext.SaveChanges();
 
-			_logger.LogInformation("{user} deleted task {id}", _authenticationService.User.Id, task.Id);
+			_logger.LogInformation("{user} deleted task {id}", _authenticationService.User().Id, task.Id);
 
 			return RedirectToAction(nameof(Index));
 		}

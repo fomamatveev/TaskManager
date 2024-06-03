@@ -1,0 +1,28 @@
+﻿@using TaskManager.Auth
+
+@inject AuthenticationService _AuthenticationService;
+
+@model TaskManager.Models.User.UserProfileViewModel
+
+@{
+}
+
+<form enctype="multipart/form-data" asp-controller="User" asp-action="UploadImage" method="POST">
+    <div>
+        <img src="/image/@Model.AvatarId" alt="No Photo" width="300" height="300"/>
+    </div>
+    <div class="form-group row">
+        <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+            <input class="form-control-plaintext" value="@_AuthenticationService.User().Email">
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="inputGroupFile02" asp-for="File">
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit">Upload</button>
+        </div>
+    </div>
+</form>

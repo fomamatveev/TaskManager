@@ -3,12 +3,13 @@
 @inject AuthenticationService _AuthenticationService;
 
 @{
+    var user = _AuthenticationService.User();
 }
 
 @if (_AuthenticationService.IsAuthenticated)
 {
     <div>
-        <span class="navbar-brand">@_AuthenticationService.User.Email</span>
+        <a class="navbar-brand" asp-controller="User" asp-action="GetProfile">@user.Email</a>
         <a class="navbar-brand btn btn-outline-warning" asp-controller="User" asp-action="Logout">Sign Out</a>
     </div>
 }

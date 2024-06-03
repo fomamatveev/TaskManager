@@ -13,14 +13,25 @@ namespace TaskManager.Auth
 
 		private readonly IHttpContextAccessor _contextAccessor;
 
-		public User User => _contextAccessor.HttpContext.User.ToUser(_dbContext);
-		
+
 		public bool IsAuthenticated => _contextAccessor.HttpContext.User.Identity?.IsAuthenticated ?? false;
 
 		public AuthenticationService(TaskManagerDbContext dbContext, IHttpContextAccessor contextAccessor)
 		{
 			_dbContext = dbContext;
 			_contextAccessor = contextAccessor;
+		}
+
+		public User User()
+		{
+			var user = _contextAccessor.HttpContext.User.ToUser(_dbContext);
+
+			if (user is null && IsAuthenticated)
+			{
+				Logout();
+			}
+
+			return user;
 		}
 
 		public async Task<bool> Login(string email, string password)
