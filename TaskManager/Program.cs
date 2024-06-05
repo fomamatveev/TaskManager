@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using TaskManager.DataAccess;
+using TaskManager.Services;
 using AuthenticationService = TaskManager.Auth.AuthenticationService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,12 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JWT"));
+builder.Services.AddScoped<EmailVerification>();
+
+builder.Configuration.AddJsonFile("Secrets.json", false);
+builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("SMTP"));
 
 var app = builder.Build();
 
@@ -42,7 +49,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
 	name: "default",
-	pattern: "{controller=Task}/{action=Index}"
+	pattern: "{controller}/{action=Index}"
 );
 
 app.Run();

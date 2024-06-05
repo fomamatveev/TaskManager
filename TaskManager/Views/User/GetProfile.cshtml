@@ -7,7 +7,7 @@
 @{
 }
 
-<form enctype="multipart/form-data" asp-controller="User" asp-action="UploadImage" method="POST">
+<form enctype="multipart/form-data" asp-action="UploadImage" method="POST">
     <div>
         <img src="/image/@Model.AvatarId" alt="No Photo" width="300" height="300"/>
     </div>
@@ -16,6 +16,15 @@
         <div class="col-sm-10">
             <input class="form-control-plaintext" value="@_AuthenticationService.User().Email">
         </div>
+        @if (_AuthenticationService.User().EmailConfirm is false)
+        {
+            <small class="form-text text-muted">Подтвердите почту. <a asp-controller="Auth" asp-action="SendVerifyMail">Отправить письмо.</a></small>
+        }
+        else
+        {
+            <small class="form-text text-muted">Почта подтверждена.</small>
+        }
+        <hr/>
     </div>
     <div class="input-group mb-3">
         <div class="custom-file">
